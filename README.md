@@ -18,7 +18,7 @@ Pick one of the one-liners below depending on where you want Luna to run:
 - **Proxmox LXC container installation:**
 
   ```shell
-  bash -c "$(curl -fsSL https://raw.githubusercontent.com/ritniotvor/luna_medt/refs/heads/main/luna-proxmox-installer.sh?token=GHSAT0AAAAAAEBRULTXR6ZH6FOYSDUYPWPK2SGHQEA)"
+  bash -c "$(curl -fsSL https://raw.githubusercontent.com/ritniotvor/luna_medt/refs/heads/main/luna-proxmox-installer.sh)"
   ```
 
   – provisions an unprivileged Debian 12 CT with a systemd service
