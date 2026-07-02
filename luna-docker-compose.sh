@@ -242,7 +242,17 @@ request_download_link() {
 }
 
 resolve_stack_paths() {
-  local target=${STACK_DIR:-$DEFAULT_STACK_SUBDIR}
+  local target
+  if [[ -z "$STACK_DIR" ]]; then
+    if [[ -t 0 ]]; then
+      read -r -p "Kam uložit docker stack? [$DEFAULT_STACK_SUBDIR]: " target
+      target=${target:-$DEFAULT_STACK_SUBDIR}
+    else
+      target="$DEFAULT_STACK_SUBDIR"
+    fi
+  else
+    target="$STACK_DIR"
+  fi
   case "$target" in
     /*)
       STACK_DIR="$target"
