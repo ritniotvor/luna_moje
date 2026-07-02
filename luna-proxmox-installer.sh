@@ -10,7 +10,6 @@ LUNA_ARCH_LABEL=""
 
 DEFAULT_TEMPLATE="local:vztmpl/debian-12-standard_12.12-1_amd64.tar.zst"
 DEFAULT_HOSTNAME="luna"
-DEFAULT_STORAGE=""
 DEFAULT_CORES=1
 DEFAULT_MEMORY=128
 DEFAULT_DISK=2
@@ -19,7 +18,7 @@ DEFAULT_SWAP=0
 
 CTID=""
 CT_HOSTNAME="$DEFAULT_HOSTNAME"
-CT_STORAGE="$DEFAULT_STORAGE"
+CT_STORAGE=""
 CT_CORES="$DEFAULT_CORES"
 CT_MEMORY="$DEFAULT_MEMORY"
 CT_DISK="$DEFAULT_DISK"
@@ -56,18 +55,26 @@ select_storage() {
 
   [[ ${#list[@]} -eq 0 ]] && die "No usable LXC storage found."
 
-  # pokud default existuje
-  for s in "${list[@]}"; do
-    if [[ "$s" == "$CT_STORAGE" ]]; then
-      return
-    fi
-  done
+  # explicitní volba přes -s/--storage se respektuje bez ptaní
+  if [[ -n "$CT_STORAGE" ]]; then
+    for s in "${list[@]}"; do
+      if [[ "$s" == "$CT_STORAGE" ]]; then
+        return
+      fi
+    done
+    log_warn "Storage '$CT_STORAGE' not found."
+  fi
+
+  if [[ ${#list[@]} -eq 1 ]]; then
+    CT_STORAGE="${list[0]}"
+    log_info "Auto-selected storage: $CT_STORAGE"
+    return
+  fi
 
   echo
-  log_warn "Default storage '$CT_STORAGE' not found."
-
   echo "Available storage:"
   local i=1
+  local type
   for s in "${list[@]}"; do
     type=$(pvesm status | awk -v x="$s" '$1==x {print $2}')
     echo "  $i) $s ($type)"
@@ -76,16 +83,11 @@ select_storage() {
 
   echo
 
-  if [[ ${#list[@]} -eq 1 ]]; then
-    CT_STORAGE="${list[0]}"
-    log_info "Auto-selected storage: $CT_STORAGE"
-    return
-  fi
-
   while true; do
     read -r -p "Select storage [1]: " c
     c=${c:-1}
     [[ "$c" =~ ^[0-9]+$ ]] && ((c>=1 && c<=${#list[@]})) && break
+    log_warn "Invalid choice"
   done
 
   CT_STORAGE="${list[$((c-1))]}"
