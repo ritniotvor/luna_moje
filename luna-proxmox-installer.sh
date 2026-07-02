@@ -128,7 +128,7 @@ main() {
   echo
   log_info "Final storage: $CT_STORAGE"
 
-  # tady pokračuje tvoje původní logika (nezměněná)
+  # tady pokračuje tvoje původní logika (nezměněná) aaa
 }
 
 main "$@"
