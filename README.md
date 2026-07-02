@@ -1,4 +1,4 @@
-# luna_medt
+# luna_moje
 modifikovany kod od oo7hacky007
 
 # Luna Installers (TL;DR)
