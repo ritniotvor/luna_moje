@@ -8,7 +8,7 @@ Pick one of the one-liners below depending on where you want Luna to run:
 - **Docker Compose on any Linux/macOS host**
 
   ```shell
-  bash -c "$(curl -fsSL https://raw.githubusercontent.com/007hacky007/luna-installers/refs/heads/master/luna-docker-compose.sh)"
+  bash -c "$(curl -fsSL https://raw.githubusercontent.com/ritniotvor/luna_moje/main/luna-docker-compose.sh)"
   ```
 
   - This generates a local Compose project, detects your CPU arch, downloads the matching Luna binary, and runs `docker compose up -d --build` for you
@@ -18,7 +18,7 @@ Pick one of the one-liners below depending on where you want Luna to run:
 - **Proxmox LXC container installation:**
 
   ```shell
-  bash -c "$(curl -fsSL https://raw.githubusercontent.com/ritniotvor/luna_medt/main/luna-proxmox-installer.sh)"
+  bash -c "$(curl -fsSL https://raw.githubusercontent.com/ritniotvor/luna_moje/main/luna-proxmox-installer.sh)"
   ```
 
   – provisions an unprivileged Debian 12 CT with a systemd service
